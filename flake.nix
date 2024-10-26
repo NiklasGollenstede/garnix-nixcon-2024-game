@@ -23,7 +23,7 @@
       in rec {
         packages = {
           webserver = pkgs.writeShellScriptBin "server" ''
-              ${lib.getExe pkgs.python3.withPackages (pip3: [ pip3.cowsay ])} ${self}/server.py
+              ${lib.getExe (pkgs.python3.withPackages (pip3: [ /* pip3.cowsay */ ]))} ${self}/server.py
           '';
           default = packages.webserver;
         };
