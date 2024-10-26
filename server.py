@@ -3,6 +3,7 @@ import random
 import uuid
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs, unquote
+import subprocess
 
 class SimpleServer(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -34,10 +35,11 @@ class SimpleServer(BaseHTTPRequestHandler):
 
         elif path.startswith("/cowsay/"):
             message = path[len("/cowsay/"):]
-            response = "cowsay "+ unquote(message)
+            response= subprocess.run([ "cowsay", message ], capture_output=True, text=True)
             self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
             self.end_headers()
-            self.wfile.write(response.encode())
+            self.wfile.write(response.stdout.encode())
 
         elif path == "/uuid":
             random_uuid = str(uuid.uuid4())
