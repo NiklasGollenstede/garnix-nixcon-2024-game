@@ -17,10 +17,15 @@
       system = "x86_64-linux";
     in
     (flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
-      let pkgs = import nixpkgs { inherit system; };
+      let
+        pkgs = import nixpkgs { inherit system; };
+        inherit (pkgs) lib;
       in rec {
         packages = {
-          webserver = pkgs.hello;
+          webserver = pkgs.writeShellScriptBin "server" ''
+
+              ${lib.getExe pkgs.python3} ${self}/server.py
+          '';
           default = packages.webserver;
         };
         apps.default = {
