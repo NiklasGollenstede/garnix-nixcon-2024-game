@@ -14,18 +14,18 @@ class SimpleServer(BaseHTTPRequestHandler):
 
         elif path.startswith("/add/"):
             try:
-                _, _, a, b = path.split("/")
-                result = int(a) + int(b)
+                l = path.split("/")
+                result = int(l[2]) + int(l[3])
                 self.send_response(200)
                 self.end_headers()
                 self.wfile.write(str(result).encode())
             except ValueError:
-                self.send_error(400, "Invalid numbers")
+                self.send_error(400, "Invalid numbers "+ a +" "+ b)
 
         elif path.startswith("/mult/"):
             try:
-                _, _, a, b = path.split("/")
-                result = int(a) * int(b)
+                l = path.split("/")
+                result = int(l[2]) * int(l[3])
                 self.send_response(200)
                 self.end_headers()
                 self.wfile.write(str(result).encode())
@@ -49,7 +49,7 @@ class SimpleServer(BaseHTTPRequestHandler):
             self.send_error(404, "Not Found")
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "8000"))
+    port = int(os.getenv("PORT", "8080"))
     server = HTTPServer(("0.0.0.0", port), SimpleServer)
     print(f"Server running on port {port}")
     server.serve_forever()
