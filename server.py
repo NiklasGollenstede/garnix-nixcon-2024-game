@@ -3,7 +3,6 @@ import random
 import uuid
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
-#from cowsay import cowsay
 
 class SimpleServer(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -35,7 +34,7 @@ class SimpleServer(BaseHTTPRequestHandler):
 
         elif path.startswith("/cowsay/"):
             message = path[len("/cowsay/"):]
-            response = cowsay(message)
+            response = "cowsay "+ message
             self.send_response(200)
             self.end_headers()
             self.wfile.write(response.encode())
