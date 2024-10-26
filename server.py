@@ -35,7 +35,7 @@ class SimpleServer(BaseHTTPRequestHandler):
 
         elif path.startswith("/cowsay/"):
             message = path[len("/cowsay/"):]
-            response= subprocess.run([ "cowsay", message ], capture_output=True, text=True)
+            response= subprocess.run([ "cowsay", unquote(message) ], capture_output=True, text=True)
             self.send_response(200)
             self.send_header("Content-Type", "text/plain")
             self.end_headers()
